@@ -62,9 +62,10 @@ const GuessNumberGame = () => {
     <div class="custom-container">
   <div id="game">
     <h2>
-      Bienvenue dans le jeu de devinette !<br />
-      (Choisissez un nombre entre 1 et 100)
+      Bienvenue dans le jeu de devinette ! 👳<br />
+      (Tu dois devinez le nombre au quel je pense 🧠. Ce nombre est situer entre 1 et 100)
     </h2>
+    
     <div class="input-wrapper">
       <input type="number" placeholder="Entrez votre estimation" value={userGuess} onChange={(e) => setUserGuess(e.target.value)} />
       <br></br><button class="bouton" onClick={play}>Devinez</button>
