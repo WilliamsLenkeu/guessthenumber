@@ -1,5 +1,15 @@
+.custom-container-min {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .custom-container {
-  width: 80%;
+  width: 50%;
   margin: 0 auto;
   text-align: center;
   background-color: #ffffff;
@@ -16,10 +26,6 @@ h2 {
   font-size: 24px;
   font-weight: bold;
   color: #333;
-}
-
-.input-wrapper {
-  margin-top: 20px;
 }
 
 input[type="number"] {
@@ -46,21 +52,20 @@ button {
   font-size: 18px;
 }
 
-#restart {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #f44336;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .result {
   margin-top: 20px;
-}
-
-#hint {
   font-size: 20px;
   font-weight: bold;
+}
+
+.low-guess {
+  color: #007bff;
+}
+
+.high-guess {
+  color: #ffc107;
+}
+
+.correct-guess {
+  color: #28a745;
 }
