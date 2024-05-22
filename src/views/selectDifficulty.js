@@ -50,7 +50,7 @@ function DifficultySelection() {
         </div>
         {difficulty && (
           <>
-            <div className="col-12 text-center">
+            <div className="col-12 pt-5 text-center">
               <h2>Mode: {difficulty}</h2>
               <h2>Entrez les valeurs à utiliser comme intervalle :</h2>
             </div>

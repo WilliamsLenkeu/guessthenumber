@@ -1,10 +1,10 @@
-// App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DifficultySelection from './views/selectDifficulty';
 import GuessNumberGame from './views/GuessNumberGame';
-import './css/App.css'
+import LeaderboardPage from './views/leaderBoard';
+import './css/App.css';
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DifficultySelection />} />
           <Route path="/GuessTheNumber/:difficulty" element={<GuessNumberGame />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
         </Routes>
       </div>
     </Router>
