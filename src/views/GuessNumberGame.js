@@ -1,4 +1,3 @@
-// GuessNumberGame.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,7 +6,7 @@ import '../css/GuessNumberGame.css';
 const GuessNumberGame = () => {
   const { difficulty } = useParams();
   const location = useLocation();
-  const { interval } = location.state || {};
+  const { interval, username } = location.state || {};
   const [a, b] = interval || [1, 100];
   const [selectedDifficulty, setSelectedDifficulty] = useState(difficulty);
   const [guess, setGuess] = useState('');
@@ -15,11 +14,9 @@ const GuessNumberGame = () => {
   const [messageClass, setMessageClass] = useState('');
   const [numberToGuess, setNumberToGuess] = useState(Math.floor(Math.random() * (b - a + 1)) + a);
   const [guesses, setGuesses] = useState([]);
-  const [leaderboard, setLeaderboard] = useState(JSON.parse(localStorage.getItem('leaderboard')) || {});
 
-  // Fonction pour calculer le nombre d'essais en fonction de la difficulté
-  const calculateAttempts = (a, b) => {
-    switch (selectedDifficulty) {
+  const calculateAttempts = (a, b, difficulty) => {
+    switch (difficulty) {
       case 'facile':
         return Math.ceil(Math.log2(b - a) + 1);
       case 'normal':
@@ -27,18 +24,18 @@ const GuessNumberGame = () => {
       case 'tres_difficile':
         return Math.ceil((Math.log2(b - a) + 1) / 2);
       default:
-        return;
+        return Math.ceil(Math.log2(b - a));
     }
   };
 
-  const [attempts, setAttempts] = useState(calculateAttempts(a, b));
+  const [attempts, setAttempts] = useState(calculateAttempts(a, b, difficulty));
 
   useEffect(() => {
     setSelectedDifficulty(difficulty);
-    setAttempts(calculateAttempts(a, b));
-  }, [difficulty, attempts]);
+    setAttempts(calculateAttempts(a, b, difficulty));
+  }, [difficulty, a, b]);
 
-  const handleGuess = (e) => {
+  const handleGuess = async (e) => {
     e.preventDefault();
     if (guess === '') {
       return;
@@ -55,22 +52,24 @@ const GuessNumberGame = () => {
     } else {
       setMessage('Félicitations ! Vous avez trouvé le nombre !');
       setMessageClass('correct-guess');
-      // Mettre à jour le leaderboard
-      updateLeaderboard('username', attempts); // Remplacez 'username' par le nom d'utilisateur réel
+      await updateLeaderboard(username, attempts); // Utilise le pseudo de l'utilisateur
     }
+    setGuess('');
   };
 
-  // Fonction pour mettre à jour le leaderboard
-  const updateLeaderboard = (username, score) => {
-    if (!leaderboard[username] || (leaderboard[username] && leaderboard[username][selectedDifficulty] < score)) {
-      setLeaderboard({
-        ...leaderboard,
-        [username]: {
-          ...leaderboard[username],
-          [selectedDifficulty]: score
-        }
+  const updateLeaderboard = async (username, score) => {
+    try {
+      const response = await fetch('/updateLeaderboard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, score, difficulty: selectedDifficulty }),
       });
-      localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+      const result = await response.json();
+      console.log(result.message);
+    } catch (error) {
+      console.error('Error updating leaderboard:', error);
     }
   };
 
